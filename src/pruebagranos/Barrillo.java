@@ -64,9 +64,8 @@ public class Barrillo extends Thread {
                 ancho--;
                 alto--;
                 gs.repaint();
-
             }
-            gs.barrillos.remove(this);
+            gs.eliminarBarrillo(this);
 
         } catch (InterruptedException ex) {
             Logger.getLogger(Barrillo.class.getName()).log(Level.SEVERE, null, ex);

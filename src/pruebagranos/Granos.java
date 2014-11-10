@@ -7,6 +7,8 @@ package pruebagranos;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+
 
 /**
  *
@@ -14,18 +16,19 @@ import java.util.logging.Logger;
  */
 public class Granos extends javax.swing.JFrame {
 
+    Thread th;
+
     /**
      * Creates new form Granos
      */
     public Granos() {
+
         initComponents();
-            Thread th = new Thread(granosSimulator1);
-            th.setDaemon(true);
-            th.start();
-            granosSimulator1.generarGrano();
-            
-            
-        
+        setIconImage(new ImageIcon(getClass().getResource("/pruebagranos/IconRodolf.png")).getImage());
+
+        th = new Thread(granosSimulator1);
+        th.setDaemon(true);
+
     }
 
     /**
@@ -37,13 +40,18 @@ public class Granos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        granosSimulator1 = new pruebagranos.GranosSimulator();
+        jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        BtEmpezar = new javax.swing.JButton();
+        jSpinner1 = new javax.swing.JSpinner();
+        granosSimulator1 = new pruebagranos.GranosSimulator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("GranosSimulator");
         setBackground(new java.awt.Color(204, 255, 204));
+        setResizable(false);
 
-        granosSimulator1.setBackground(new java.awt.Color(255, 153, 153));
+        jPanel1.setBackground(new java.awt.Color(255, 102, 102));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pruebagranos/cream.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -52,25 +60,74 @@ public class Granos extends javax.swing.JFrame {
             }
         });
 
+        BtEmpezar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pruebagranos/start.png"))); // NOI18N
+        BtEmpezar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtEmpezarActionPerformed(evt);
+            }
+        });
+
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(300, 10, 3000, 1));
+        jSpinner1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSpinner1StateChanged(evt);
+            }
+        });
+        jSpinner1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jSpinner1MouseClicked(evt);
+            }
+        });
+
+        granosSimulator1.setBackground(new java.awt.Color(255, 153, 153));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(granosSimulator1, javax.swing.GroupLayout.PREFERRED_SIZE, 1020, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jSpinner1)
+                    .addComponent(BtEmpezar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jButton1)
+                        .addGap(118, 118, 118)
+                        .addComponent(BtEmpezar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(granosSimulator1, javax.swing.GroupLayout.PREFERRED_SIZE, 592, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(42, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(granosSimulator1, javax.swing.GroupLayout.PREFERRED_SIZE, 1037, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(granosSimulator1, javax.swing.GroupLayout.PREFERRED_SIZE, 579, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -81,43 +138,54 @@ public class Granos extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void BtEmpezarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtEmpezarActionPerformed
+        granosSimulator1.setVelocidadGranos(jSpinner1.getValue().toString());
+        BtEmpezar.setEnabled(false);
+        th.start();
+
+    }//GEN-LAST:event_BtEmpezarActionPerformed
+
+    private void jSpinner1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jSpinner1MouseClicked
+
+    }//GEN-LAST:event_jSpinner1MouseClicked
+
+    private void jSpinner1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner1StateChanged
+        granosSimulator1.setVelocidadGranos(jSpinner1.getValue().toString());
+    }//GEN-LAST:event_jSpinner1StateChanged
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        
         try {
+
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Granos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Granos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Granos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Granos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
-                new Granos().setVisible(true);
+
+                Granos granos = new Granos();
+                Splash s = new Splash(2000, granos);
+
             }
         });
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtEmpezar;
     private pruebagranos.GranosSimulator granosSimulator1;
     private javax.swing.JButton jButton1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JSpinner jSpinner1;
     // End of variables declaration//GEN-END:variables
 }

@@ -13,15 +13,12 @@
  */
 package pruebagranos;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -37,11 +34,13 @@ import javax.swing.JComponent;
  */
 public class GranosSimulator extends JComponent implements MouseListener, MouseMotionListener, Runnable {
 
+    private int velocidadGranos;
     ArrayList<Barrillo> barrillos = new ArrayList<Barrillo>();
     BufferedImage imagen;
     BufferedImage granoImage;
     BufferedImage grano2Image;
     boolean mascarillaAplicada;
+    Manos manos = new Manos(0, 0, this);
     Semaphore semaforo = new Semaphore(1);
 
     /**
@@ -53,12 +52,30 @@ public class GranosSimulator extends JComponent implements MouseListener, MouseM
         addMouseMotionListener(this);
         try {
 
-            granoImage = ImageIO.read(new File("grano.png"));
-            grano2Image = ImageIO.read(new File("grano2.png"));
+            granoImage = ImageIO.read(this.getClass().getResourceAsStream("/pruebagranos/grano.png"));
+            grano2Image = ImageIO.read(this.getClass().getResourceAsStream("/pruebagranos/grano2.png"));
+            for (int i = 0; i < cara.length; i++) {
+
+                cara[i] = ImageIO.read(this.getClass().getResourceAsStream("/pruebagranos/RodolfoCaraPestañeo" + i + ".png"));
+
+            }
+            mascarilla = ImageIO.read(this.getClass().getResourceAsStream("/pruebagranos/MascarillaRodolfo.png"));
+
         } catch (IOException ex) {
             Logger.getLogger(GranosSimulator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public void setVelocidadGranos(String v) {
+        this.velocidadGranos = Integer.parseInt(v);
+    }
+
+    public int getVelocidadGranos() {
+        return velocidadGranos;
+    }
+
+    private BufferedImage[] cara = new BufferedImage[6];
+    private BufferedImage mascarilla;
 
     /**
      * Metodo paint > Encargado de pintar y repintar el rostro del personaje,
@@ -70,18 +87,15 @@ public class GranosSimulator extends JComponent implements MouseListener, MouseM
      * sobre el JComponent.
      */
     public void paint(Graphics graphics) {
-        try {
 
-            imagen = ImageIO.read(new File("caraRodolfprueba.png"));
-            graphics.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
+        graphics.drawImage(cara[imagenActual], 0, 0, getWidth(), getHeight(), this);
 
-        } catch (IOException ex) {
-            Logger.getLogger(GranosSimulator.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        Barrillo[] barrillo = barrillos.toArray(new Barrillo[0]);
+        Barrillo[] barrillo = getBarrillos();
         for (int o = 0; o < barrillo.length; o++) {
             Barrillo b = barrillo[o];
+            if (b == null) {
+                continue;
+            }
             if (b.tipo.equals("grano")) {
                 graphics.drawImage(granoImage, b.getX(), b.getY(), b.getAncho(), b.getAlto(), this);
             } else {
@@ -90,13 +104,12 @@ public class GranosSimulator extends JComponent implements MouseListener, MouseM
         }
 
         if (mascarillaAplicada) {
-            try {
-                imagen = ImageIO.read(new File("RodolfMascara.png"));
-                graphics.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
-            } catch (IOException ex) {
-                Logger.getLogger(GranosSimulator.class.getName()).log(Level.SEVERE, null, ex);
-            }
+
+            graphics.drawImage(mascarilla, 0, 0, getWidth(), getHeight(), this);
+
         }
+
+        manos.pintar(graphics);
     }
 
     /**
@@ -117,13 +130,13 @@ public class GranosSimulator extends JComponent implements MouseListener, MouseM
 
         Random rand = new Random();
 
-        int x = (int) (0.25 * getWidth()) + rand.nextInt((int) (0.45 * getWidth()));
-        int y = (int) (0.30 * getHeight()) + rand.nextInt((int) (0.6 * getHeight()));
+        int x = (int) (0.28 * getWidth()) + rand.nextInt((int) (0.45 * getWidth()));
+        int y = (int) (0.34 * getHeight()) + rand.nextInt((int) (0.55 * getHeight()));
         int maxAncho = rand.nextInt(20);
         int maxAlto = maxAncho;
         while (comprobarRectangulos(x, y) == true) {
-            x = (int) (0.25 * getWidth()) + rand.nextInt((int) (0.45 * getWidth()));
-            y = (int) (0.30 * getHeight()) + rand.nextInt((int) (0.6 * getHeight()));
+            x = (int) (0.28 * getWidth()) + rand.nextInt((int) (0.45 * getWidth()));
+            y = (int) (0.34 * getHeight()) + rand.nextInt((int) (0.55 * getHeight()));
         }
         Barrillo barrillo;
         if (rand.nextInt(100) <= 10) {
@@ -150,9 +163,9 @@ public class GranosSimulator extends JComponent implements MouseListener, MouseM
      */
     public boolean comprobarRectangulos(int x, int y) {
         Rectangle[] rectangulos = new Rectangle[3];
-        Rectangle rectanguloOjoIzq = new Rectangle((int) (0.28 * getWidth()), (int) (0.45 * getHeight()), (int) (0.13 * getWidth()), (int) (0.15 * getHeight()));
-        Rectangle rectanguloOjoDerch = new Rectangle((int) (0.50 * getWidth()), (int) (0.45 * getHeight()), (int) (0.13 * getWidth()), (int) (0.15 * getHeight()));
-        Rectangle rectanguloBoca = new Rectangle((int) (0.29 * getWidth()), (int) (0.65 * getHeight()), (int) (0.36 * getWidth()), (int) (0.20 * getHeight()));
+        Rectangle rectanguloOjoIzq = new Rectangle((int) (0.31 * getWidth()), (int) (0.52 * getHeight()), (int) (0.135 * getWidth()), (int) (0.15 * getHeight()));
+        Rectangle rectanguloOjoDerch = new Rectangle((int) (0.55 * getWidth()), (int) (0.52 * getHeight()), (int) (0.13 * getWidth()), (int) (0.15 * getHeight()));
+        Rectangle rectanguloBoca = new Rectangle((int) (0.40 * getWidth()), (int) (0.70 * getHeight()), (int) (0.20 * getWidth()), (int) (0.13 * getHeight()));
         rectangulos[0] = rectanguloOjoIzq;
         rectangulos[1] = rectanguloOjoDerch;
         rectangulos[2] = rectanguloBoca;
@@ -185,12 +198,15 @@ public class GranosSimulator extends JComponent implements MouseListener, MouseM
     public void mouseReleased(MouseEvent e) {
         Rectangle rect = new Rectangle(e.getX(), e.getY(), 1, 1);
         Barrillo[] prebarrillo = barrillos.toArray(new Barrillo[0]);
+        Barrillo barrilloAExplotar = null;
         for (Barrillo bar : prebarrillo) {
             if (bar.devolverRectangle().intersects(rect)) {
-                barrillos.remove(bar);
+                barrilloAExplotar = bar;
                 repaint();
             }
         }
+        mouseMoved(e);
+        manos.push(barrilloAExplotar);
     }
 
     @Override
@@ -210,8 +226,16 @@ public class GranosSimulator extends JComponent implements MouseListener, MouseM
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        manos.asignarPosicion(e.getX(), e.getY());
+        repaint();
 
     }
+
+    private int tiempoParaParpadeo = 10;
+    private int intervaloParpadeo = 0;
+
+    private int velocidadParpadeo = 150;
+    private int imagenActual;
 
     /**
      * Metodo run de Thread duerme al hilo un tiempo aleatorio usando
@@ -222,9 +246,38 @@ public class GranosSimulator extends JComponent implements MouseListener, MouseM
     @Override
     public void run() {
         Random rand = new Random();
+        new Thread() {
+            @Override
+            public void run() {
+                while (true) {
+                    if (intervaloParpadeo <= 0) {
+
+                        if (imagenActual < 6) {
+                            try {
+                                Thread.sleep(velocidadParpadeo);
+                                imagenActual++;
+                                repaint();
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(GranosSimulator.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        } else {
+                            imagenActual = 0;
+                            intervaloParpadeo = tiempoParaParpadeo;
+                        }
+                    } else {
+                        intervaloParpadeo--;
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(GranosSimulator.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+            }
+        }.start();
         try {
             while (true) {
-                Thread.sleep(300 + rand.nextInt(1500));
+                Thread.sleep(rand.nextInt(velocidadGranos));
                 semaforo.acquire();
                 generarGrano();
                 semaforo.release();
@@ -248,8 +301,8 @@ public class GranosSimulator extends JComponent implements MouseListener, MouseM
     public void aplicarMascarilla() throws InterruptedException {
 
         if (!mascarillaAplicada) {
-            for (int i = 0; i < barrillos.size(); i++) {
-                barrillos.get(i).mascarillaAplicada = true;
+            for (Barrillo barrillo : barrillos) {
+                barrillo.mascarillaAplicada = true;
             }
             mascarillaAplicada = true;
             repaint();
@@ -258,18 +311,32 @@ public class GranosSimulator extends JComponent implements MouseListener, MouseM
             Thread th = new Thread() {
                 public void run() {
                     try {
-                        Thread.sleep(5000);
+                        try {
+                            Thread.sleep(5000);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(GranosSimulator.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                        Thread.sleep(4000);
+                        semaforo.release();
                     } catch (InterruptedException ex) {
                         Logger.getLogger(GranosSimulator.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     mascarillaAplicada = false;
-                    semaforo.release();
                 }
 
             };
             th.start();
         }
 
+    }
+
+    public synchronized Barrillo[] getBarrillos() {
+        return barrillos.toArray(new Barrillo[0]);
+    }
+
+    public synchronized void eliminarBarrillo(Barrillo barrillo) {
+        barrillos.remove(barrillo);
     }
 
 }
