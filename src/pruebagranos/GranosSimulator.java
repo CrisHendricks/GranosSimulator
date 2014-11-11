@@ -48,6 +48,7 @@ public class GranosSimulator extends JComponent implements MouseListener, MouseM
      * para los dos tipos de granos.
      */
     public GranosSimulator() {
+
         addMouseListener(this);
         addMouseMotionListener(this);
         try {
@@ -130,12 +131,12 @@ public class GranosSimulator extends JComponent implements MouseListener, MouseM
 
         Random rand = new Random();
 
-        int x = (int) (0.28 * getWidth()) + rand.nextInt((int) (0.45 * getWidth()));
+        int x = (int) (0.28 * getWidth()) + rand.nextInt((int) (0.42 * getWidth()));
         int y = (int) (0.34 * getHeight()) + rand.nextInt((int) (0.55 * getHeight()));
         int maxAncho = rand.nextInt(20);
         int maxAlto = maxAncho;
         while (comprobarRectangulos(x, y) == true) {
-            x = (int) (0.28 * getWidth()) + rand.nextInt((int) (0.45 * getWidth()));
+            x = (int) (0.28 * getWidth()) + rand.nextInt((int) (0.42 * getWidth()));
             y = (int) (0.34 * getHeight()) + rand.nextInt((int) (0.55 * getHeight()));
         }
         Barrillo barrillo;
@@ -162,13 +163,24 @@ public class GranosSimulator extends JComponent implements MouseListener, MouseM
      * parametros de entrada.
      */
     public boolean comprobarRectangulos(int x, int y) {
-        Rectangle[] rectangulos = new Rectangle[3];
-        Rectangle rectanguloOjoIzq = new Rectangle((int) (0.31 * getWidth()), (int) (0.52 * getHeight()), (int) (0.135 * getWidth()), (int) (0.15 * getHeight()));
+        Rectangle[] rectangulos = new Rectangle[8];
+        Rectangle rectanguloOjoIzq = new Rectangle((int) (0.305 * getWidth()), (int) (0.52 * getHeight()), (int) (0.135 * getWidth()), (int) (0.15 * getHeight()));
         Rectangle rectanguloOjoDerch = new Rectangle((int) (0.55 * getWidth()), (int) (0.52 * getHeight()), (int) (0.13 * getWidth()), (int) (0.15 * getHeight()));
         Rectangle rectanguloBoca = new Rectangle((int) (0.40 * getWidth()), (int) (0.70 * getHeight()), (int) (0.20 * getWidth()), (int) (0.13 * getHeight()));
+        Rectangle rectanguloBot = new Rectangle((int) (0.21 * getWidth()), (int) (0.85 * getHeight()), (int) (0.60 * getWidth()), (int) (0.13 * getHeight()));
+        Rectangle rectanguloBotIzq = new Rectangle((int) (0.25 * getWidth()), (int) (0.80 * getHeight()), (int) (0.10 * getWidth()), (int) (0.13 * getHeight()));
+        Rectangle rectanguloBotDer = new Rectangle((int) (0.60 * getWidth()), (int) (0.80 * getHeight()), (int) (0.10 * getWidth()), (int) (0.13 * getHeight()));
+        Rectangle rectanguloTopDer = new Rectangle((int) (0.60 * getWidth()), (int) (0.30 * getHeight()), (int) (0.10 * getWidth()), (int) (0.13 * getHeight()));
+        Rectangle rectanguloTopIzq = new Rectangle((int) (0.26 * getWidth()), (int) (0.30 * getHeight()), (int) (0.10 * getWidth()), (int) (0.13 * getHeight()));
+        
         rectangulos[0] = rectanguloOjoIzq;
         rectangulos[1] = rectanguloOjoDerch;
         rectangulos[2] = rectanguloBoca;
+        rectangulos[3] = rectanguloBot;
+        rectangulos[4] = rectanguloBotIzq;
+        rectangulos[5] = rectanguloBotDer;
+        rectangulos[6] = rectanguloTopDer;
+        rectangulos[7] = rectanguloTopIzq;
         for (Rectangle r : rectangulos) {
             if (r.contains(x, y)) {
                 return true;
